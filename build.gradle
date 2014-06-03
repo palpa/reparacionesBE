@@ -1,0 +1,50 @@
+buildscript {
+	ext {
+		springBootVersion = '1.0.2.RELEASE'
+	}
+    repositories {
+    	mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'reparaciones'
+    version =  '0.0.1-SNAPSHOT'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    
+    compile ("org.springframework.hateoas:spring-hateoas:0.12.0.RELEASE")
+    
+    //Needed by spring-hateoas @EnableHypermediaSupport annotation
+    compile ("org.springframework.plugin:spring-plugin-core:1.1.0.RELEASE")
+    
+   // compile ("org.springframework.data:spring-data-commons-core:1.4.1.RELEASE")
+    
+   // compile ("org.springframework.data:spring-data-commons:1.8.0.RELEASE")
+    
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.12'
+}
