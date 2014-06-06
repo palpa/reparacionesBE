@@ -3,9 +3,6 @@ package reparaciones.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class CustomerAccess {
 	
 	private Iterable<Customer> customers = CustomerBuilder.aCustomer().buildMany(100);

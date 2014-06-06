@@ -9,15 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.hateoas.ExposesResourceFor;
-import org.springframework.hateoas.PagedResources.PageMetadata;
 import org.springframework.hateoas.Resources;
 
 import reparaciones.domain.Customer;
-import reparaciones.domain.CustomerAccess;
 import reparaciones.domain.Shop;
 import reparaciones.resources.CustomerResourceAssembler;
 import reparaciones.resources.CustomerResource;
-import reparaciones.resources.PagedCustomerResources;
 
 @Controller
 @ExposesResourceFor(Customer.class)
@@ -27,16 +24,20 @@ public class CustomersController {
 	@Autowired
 	private CustomerResourceAssembler customerResourceAssembler;
 
+//	@Autowired
+//	CustomerAccess customerAccess;
+	
 	@Autowired
-	CustomerAccess customerAccess;
+	Shop shop;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public HttpEntity<Resources<CustomerResource>> showAllPaged(
 			@RequestParam(value = "offset", required = false, defaultValue = "1") long pageOffset,
 			@RequestParam(value = "limit", required = false, defaultValue = "5") long pageLimit) {
-		Iterable<? extends Customer> customers = customerAccess.getCustomers();
+				
 		List<CustomerResource> resources = customerResourceAssembler
-				.toResources(customers);
+				.toResources(shop.getCustomers());
+		
 		return new HttpEntity<Resources<CustomerResource>>(new Resources<CustomerResource>(resources));
 	}
 	
