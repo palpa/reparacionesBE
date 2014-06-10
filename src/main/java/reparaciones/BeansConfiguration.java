@@ -5,9 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import reparaciones.domain.Customer;
-import reparaciones.domain.CustomerAccess;
 import reparaciones.domain.Shop;
+import reparaciones.fixtures.CustomerFixture;
 
 @Configuration
 public class BeansConfiguration {
@@ -19,17 +18,8 @@ public class BeansConfiguration {
 
 		log.info("Shop created!");
 
-		Iterable<? extends Customer> customers = customerAccess()
-				.getCustomers();
-		for (Customer customer : customers) {
-			shop.addCustomer(customer);
-		}
-
+		shop.setCustomers(CustomerFixture.aCustomer().buildMany(100));
+		
 		return shop;
-	}
-
-	@Bean
-	public CustomerAccess customerAccess() {
-		return new CustomerAccess();
 	}
 }
