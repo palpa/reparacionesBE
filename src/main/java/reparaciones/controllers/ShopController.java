@@ -14,7 +14,7 @@ import reparaciones.resources.ShopResource;
 import reparaciones.resources.ShopResourceAssembler;
 
 @Controller
-@RequestMapping(value = "/api", produces = "application/hal+json")
+@RequestMapping(value = "/api")
 public class ShopController {
 
 	@Autowired

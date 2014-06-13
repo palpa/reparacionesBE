@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.0.2.RELEASE'
+		springBootVersion = '1.1.1.RELEASE'
 	}
     repositories {
     	mavenCentral()
@@ -20,20 +20,24 @@ jar {
     version =  '0.0.1-SNAPSHOT'
 }
 
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
+        // exclude module: "spring-boot-starter-tomcat"
     }
     
-    compile("org.springframework.boot:spring-boot-starter-jetty")
+    // Use Tomacat cause starter-jetty:1.1.1 not load javax.servlet.Filter 
+    // compile("org.springframework.boot:spring-boot-starter-jetty")
 
     compile("org.springframework.boot:spring-boot-starter-actuator")
     
-    compile ("org.springframework.hateoas:spring-hateoas:0.12.0.RELEASE")
+    compile ("org.springframework.hateoas:spring-hateoas")
     
     //Needed by spring-hateoas @EnableHypermediaSupport annotation
     compile ("org.springframework.plugin:spring-plugin-core:1.1.0.RELEASE")
@@ -43,6 +47,13 @@ dependencies {
    // compile ("org.springframework.data:spring-data-commons:1.8.0.RELEASE")
     
     testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+eclipse {
+    classpath {
+         containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+         containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7'
+    }
 }
 
 task wrapper(type: Wrapper) {

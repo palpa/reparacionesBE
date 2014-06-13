@@ -17,7 +17,7 @@ import reparaciones.utils.RestfulPageable;
 
 @Controller
 @ExposesResourceFor(Customer.class)
-@RequestMapping(value = "/api/customers", produces = "application/hal+json")
+@RequestMapping(value = "/api/customers")
 public class CustomersController {
 
 	@Autowired
