@@ -1,24 +1,27 @@
 package reparaciones.resources;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.stereotype.Component;
 
-public class ShopResource extends ResourceSupport {
-	private String name;
-	private boolean apiRoot;
+@Component
+public final class ShopResource extends ResourceSupport {
+
+	private final String name;
+	private final boolean apiRoot = true;
+
+	@Autowired
+	private ShopResource(@Value("${shop.name}") String shopName) {
+		super();
+		this.name = shopName;
+	}
 
 	public String getName() {
 		return name;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
+
 	public boolean isApiRoot() {
 		return apiRoot;
-	}
-	
-	public void setApiRoot(boolean apiRoot) {
-		this.apiRoot = apiRoot;
 	}
 }

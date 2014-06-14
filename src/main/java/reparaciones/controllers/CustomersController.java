@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.hateoas.Resources;
 
-import reparaciones.domain.Customer;
 import reparaciones.resources.CustomerResource;
 import reparaciones.services.CustomerResourcesService;
 import reparaciones.utils.RestfulPageable;
 
 @Controller
-@ExposesResourceFor(Customer.class)
+@ExposesResourceFor(CustomerResource.class)
 @RequestMapping(value = "/api/customers")
 public class CustomersController {
 
