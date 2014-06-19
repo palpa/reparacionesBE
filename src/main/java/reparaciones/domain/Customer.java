@@ -3,6 +3,7 @@ package reparaciones.domain;
 import org.springframework.hateoas.Identifiable;
 
 public class Customer implements Identifiable<Long> {
+	
 	private final Long id;
 	private final String firstName;
 	private final String lastName;
@@ -12,7 +13,7 @@ public class Customer implements Identifiable<Long> {
 		throw new AssertionError();
 	}
 
-	private Customer(Builder builder) {
+	private Customer(CustomerBuilder builder) {
 		this.id = builder.id;
 		this.firstName = builder.firstName;
 		this.lastName = builder.lastName;
@@ -35,19 +36,20 @@ public class Customer implements Identifiable<Long> {
 		return address;
 	}
 
-	public static class Builder {
+	public static class CustomerBuilder {
+		
 		private final Long id;
 		private final String firstName;
 		private final String lastName;
 		private String address;
 
-		public Builder(Long id, String firstName, String lastName) {
+		private CustomerBuilder(Long id, String firstName, String lastName) {
 			this.id = id;
 			this.firstName = firstName;
 			this.lastName = lastName;
 		}
 
-		public Builder address(String address) {
+		public CustomerBuilder address(String address) {
 			this.address = address;
 			return this;
 		}
@@ -55,5 +57,9 @@ public class Customer implements Identifiable<Long> {
 		public Customer build() {
 			return new Customer(this);
 		}
+	}
+	
+	public static CustomerBuilder newInstance(Long id, String firstName, String lastName) {
+		return new CustomerBuilder(id, firstName, lastName);
 	}
 }

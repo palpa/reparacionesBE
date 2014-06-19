@@ -7,8 +7,8 @@ import reparaciones.domain.Customer;
 
 public class CustomerFixture {
 	private static long count = 0;
-	private static final String FIRST_NAME = "Super";
-	private static final String LAST_NAME = "Gay";
+	private static final String FIRST_NAME = "John";
+	private static final String LAST_NAME = "Snow";
 
 	public static CustomerFixture aCustomer() {
 		return new CustomerFixture();
@@ -18,7 +18,7 @@ public class CustomerFixture {
 		synchronized (this) {
 			count++;
 		}
-		return new Customer.Builder(count, FIRST_NAME, LAST_NAME + ' ' + count).build();
+		return Customer.newInstance(count, FIRST_NAME, LAST_NAME + ' ' + count).build();
 	}
 
 	public List<Customer> buildMany(int numberOf) {
