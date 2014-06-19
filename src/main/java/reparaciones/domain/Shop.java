@@ -1,18 +1,18 @@
 package reparaciones.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 public class Shop {
 
-	private Collection<Customer> customers = new ArrayList<Customer>();
+	private List<Customer> customers = new ArrayList<Customer>();
 
-	public Collection<Customer> getCustomers() {
+	public List<Customer> getCustomers() {
 		return customers;
 	}
 
-	public void setCustomers(Collection<Customer> customers) {
+	public void setCustomers(List<Customer> customers) {
 		this.customers = customers;
 	}
 
@@ -20,9 +20,9 @@ public class Shop {
 		this.getCustomers().add(customer);
 	}
 
-	public Collection<Customer> findCustomersByName(String name) {
+	public List<Customer> findCustomersByName(String name) {
 		Iterator<Customer> anIterator = this.getCustomers().iterator();
-		Collection<Customer> customers = new ArrayList<Customer>();
+		List<Customer> customers = new ArrayList<Customer>();
 		Customer currentCustomer = null;
 
 		while (anIterator.hasNext()) {

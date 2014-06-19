@@ -5,23 +5,23 @@ import java.util.List;
 import java.util.Map;
 
 public class RestfulPageable {
-	private final long offset;
-	private final long limit;
+	private final int offset;
+	private final int limit;
 	private final Map<String, String> filters;
 	private final List<Sorting> sortings;
 
-	private RestfulPageable(Builder builder) {
+	private RestfulPageable(RestfulPageableBuilder builder) {
 		this.offset = builder.offset;
 		this.limit = builder.limit;
 		this.filters = builder.filters;
 		this.sortings = builder.sortings;
 	}
 
-	public long getOffset() {
+	public int getOffset() {
 		return offset;
 	}
 
-	public long getLimit() {
+	public int getLimit() {
 		return limit;
 	}
 
@@ -33,28 +33,28 @@ public class RestfulPageable {
 		return sortings;
 	}
 
-	public static class Builder {
-		private long offset = 0;
-		private long limit = 10;
+	public static class RestfulPageableBuilder {
+		private int offset = 0;
+		private int limit = 10;
 		private Map<String, String> filters = Collections.emptyMap();
 		private List<Sorting> sortings = Collections.emptyList();
 
-		public Builder offset(long offset) {
+		public RestfulPageableBuilder offset(int offset) {
 			this.offset = offset;
 			return this;
 		}
 
-		public Builder limit(long limit) {
+		public RestfulPageableBuilder limit(int limit) {
 			this.limit = limit;
 			return this;
 		}
 
-		public Builder filtersQueryString(String filtersQueryString) {
+		public RestfulPageableBuilder filtersQueryString(String filtersQueryString) {
 			this.filters = this.filtersQueryStringToMap(filtersQueryString);
 			return this;
 		}
 
-		public Builder sortingsQueryString(String sortingsQueryString) {
+		public RestfulPageableBuilder sortingsQueryString(String sortingsQueryString) {
 			this.sortings = this.sortingsQueryStringToMap(sortingsQueryString);
 			return this;
 		}
@@ -75,6 +75,10 @@ public class RestfulPageable {
 			return new RestfulPageable(this);
 		}
 
+	}
+	
+	public static RestfulPageableBuilder newInstance() {
+		return new RestfulPageableBuilder();
 	}
 	
 	public final static class Sorting {

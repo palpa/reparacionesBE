@@ -46,6 +46,8 @@ dependencies {
    // compile ("org.springframework.data:spring-data-commons-core:1.4.1.RELEASE")
     
    // compile ("org.springframework.data:spring-data-commons:1.8.0.RELEASE")
+   
+    compile ("com.google.guava:guava:17.0")
     
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

@@ -24,10 +24,10 @@ public class CustomersController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Resources<CustomerResource>> showAllPaged(
-			@RequestParam(value = "offset", required = false, defaultValue = "0") long pageOffset,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") long pageLimit) {
+			@RequestParam(value = "offset", required = false, defaultValue = "0") int pageOffset,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") int pageLimit) {
 		
-		RestfulPageable pageable = new RestfulPageable.Builder()
+		RestfulPageable pageable = RestfulPageable.newInstance()
 				.offset(pageOffset).limit(pageLimit).build();
 
 		Resources<CustomerResource> resources = customerResourcesService
