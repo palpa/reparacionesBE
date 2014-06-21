@@ -26,50 +26,16 @@ public class CustomersController {
 	public ResponseEntity<Resources<CustomerResource>> showAllPaged(
 			@RequestParam(value = "offset", required = false, defaultValue = "0") int pageOffset,
 			@RequestParam(value = "limit", required = false, defaultValue = "10") int pageLimit) {
-		
+
 		RestfulPageable pageable = RestfulPageable.newInstance()
-				.offset(pageOffset).limit(pageLimit).build();
+				.offset(pageOffset).limit(pageLimit)
+				.hrefFromCurrentRequestUri().build();
 
 		Resources<CustomerResource> resources = customerResourcesService
-				.getCustomers(pageable);
-			
-		return new ResponseEntity<Resources<CustomerResource>>(resources, HttpStatus.OK);
+				.getCustomerResources(pageable);
+
+		return new ResponseEntity<Resources<CustomerResource>>(resources,
+				HttpStatus.OK);
 	}
-
-	// @RequestMapping(method = RequestMethod.GET)
-	// public HttpEntity<PagedCustomerResources> showAllPaged(
-	// @RequestParam(value = "size", required = false, defaultValue = "5") long
-	// size,
-	// @RequestParam(value = "page", required = false, defaultValue = "1") long
-	// page) {
-	// Iterable<? extends Customer> customers = customerAccess.getCustomers();
-	// List<CustomerResource> resources = customerResourceAssembler
-	// .toResources(customers);
-	// long totalElements = resources.size();
-	// // long totalPages = totalElements / size;
-	// PageMetadata pageMetadata = new PageMetadata(size, page,
-	// totalElements);
-	// PagedCustomerResources pagedResources = new PagedCustomerResources(
-	// resources, pageMetadata);
-	// System.out.println(pagedResources.getNextLink());
-	// return new HttpEntity<PagedCustomerResources>(pagedResources);
-	// }
-
-	// @RequestMapping(value = "/test", method = RequestMethod.GET)
-	// public HttpEntity<PagedCustomerResources>
-	// showAllPaged2(PagedResourcesAssembler assembler) {
-	// Iterable<? extends Customer> customers = customerAccess.getCustomers();
-	// List<CustomerResource> resources =
-	// customerResourceAssembler.toResources(customers);
-	// long size = 5;
-	// long number = 1;
-	// long totalElements = resources.size();
-	// long totalPages = totalElements / size;
-	// PageMetadata pageMetadata = new PageMetadata(size, number, totalElements,
-	// totalPages);
-	// PagedCustomerResources pagedResources = new
-	// PagedCustomerResources(resources, pageMetadata);
-	// System.out.println(pagedResources.getNextLink());
-	// return new HttpEntity<PagedCustomerResources>(pagedResources);
-	// }
+	
 }

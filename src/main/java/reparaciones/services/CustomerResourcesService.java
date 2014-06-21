@@ -7,5 +7,5 @@ import reparaciones.utils.RestfulPageable;
 
 public interface CustomerResourcesService {
 
-	public Resources<CustomerResource> getCustomers(RestfulPageable pageable);
+	public Resources<CustomerResource> getCustomerResources(RestfulPageable pageable);
 }
