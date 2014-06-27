@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '1.1.1.RELEASE'
+		springBootVersion = '1.1.3.RELEASE'
 	}
     repositories {
     	mavenCentral()
@@ -30,11 +30,11 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web") {
-        // exclude module: "spring-boot-starter-tomcat"
+        exclude module: "spring-boot-starter-tomcat"
     }
     
-    // Use Tomacat cause starter-jetty:1.1.1 not load javax.servlet.Filter 
-    // compile("org.springframework.boot:spring-boot-starter-jetty")
+    // Fixed: use Tomacat cause starter-jetty:1.1.1 not load javax.servlet.Filter 
+    compile("org.springframework.boot:spring-boot-starter-jetty")
 
     compile("org.springframework.boot:spring-boot-starter-actuator")
     
