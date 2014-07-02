@@ -5,6 +5,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,16 +22,18 @@ public class ShopController {
 	@Autowired
 	EntityLinks entityLinks;
 
-	@Autowired
-	private ShopResource shopResource;
+//	@Autowired
+//	private ShopResource shopResource;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<ShopResource> shop() {
 
+		ShopResource shopResource = ShopResource.newInstance("MyM");
+		
 		shopResource.add(linkTo(methodOn(ShopController.class).shop())
 				.withSelfRel());
-		shopResource.add(entityLinks.linkToCollectionResource(
-				CustomerResource.class).withRel("customers"));
+		shopResource.add(new Link(entityLinks.linkToCollectionResource(
+				CustomerResource.class).getHref() + "{?offset,limit}", "customers"));
 
 		return new ResponseEntity<ShopResource>(shopResource, HttpStatus.OK);
 	}
