@@ -8,8 +8,8 @@ import reparaciones.domain.Customer;
 import reparaciones.domain.Shop;
 import reparaciones.resources.CustomerResource;
 import reparaciones.resources.CustomerResourceAssembler;
-import reparaciones.resources.PagedResourcesAssembler;
 import reparaciones.services.CustomerResourcesService;
+import reparaciones.utils.RestfulPagedResourcesAssembler;
 import reparaciones.utils.RestfulPage;
 import reparaciones.utils.RestfulPageable;
 
@@ -23,7 +23,7 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 	private CustomerResourceAssembler assembler;
 
 	@Autowired
-	private PagedResourcesAssembler pagedResourceAssembler;
+	private RestfulPagedResourcesAssembler pagedResourceAssembler;
 
 	@Override
 	public Resources<CustomerResource> getCustomerResources(RestfulPageable pageable) {

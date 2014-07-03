@@ -1,4 +1,4 @@
-package reparaciones.resources;
+package reparaciones.utils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,11 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import reparaciones.utils.RestfulPage;
-import reparaciones.utils.RestfulPageable;
-
 @Component
-public class PagedResourcesAssembler {
+public class RestfulPagedResourcesAssembler {
 
 	public <T, R extends ResourceSupport> PagedResources<R> toResource(
 			RestfulPage<T> page, ResourceAssemblerSupport<T, R> assembler) {

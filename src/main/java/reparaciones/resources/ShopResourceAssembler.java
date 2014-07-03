@@ -9,6 +9,7 @@ import org.springframework.hateoas.EntityLinks;
 import org.springframework.stereotype.Component;
 
 import reparaciones.controllers.ShopController;
+import reparaciones.utils.RestfulPagedResourcesAssembler;
 
 @Component
 public class ShopResourceAssembler {
@@ -26,7 +27,7 @@ public class ShopResourceAssembler {
 		shopResource.add(linkTo(methodOn(ShopController.class).shop())
 				.withSelfRel());
 
-		shopResource.add(PagedResourcesAssembler
+		shopResource.add(RestfulPagedResourcesAssembler
 				.addPaginationTemplateToLink(entityLinks.linkToCollectionResource(
 						CustomerResource.class).withRel("customers")));
 
