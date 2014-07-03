@@ -1,33 +1,27 @@
 package reparaciones.resources;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.PagedResources.PageMetadata;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import reparaciones.utils.RestfulPage;
 import reparaciones.utils.RestfulPageable;
 
 @Component
-public class PagedResourcesAssembler<T>
-		implements
-			ResourceAssembler<RestfulPage<T>, PagedResources<Resource<T>>> {
+public class PagedResourcesAssembler {
 
-	@Override
-	public PagedResources<Resource<T>> toResource(RestfulPage<T> entity) {
-		//return createResource(entity, new SimplePagedResourceAssembler<T>());
-		return null;
-	}
-
-	public <R extends ResourceSupport> PagedResources<R> toResource(
+	public <T, R extends ResourceSupport> PagedResources<R> toResource(
 			RestfulPage<T> page, ResourceAssemblerSupport<T, R> assembler) {
+
 		return createResource(page, assembler);
 	}
 
@@ -55,35 +49,32 @@ public class PagedResourcesAssembler<T>
 		return pagedResources;
 	}
 
-	private static <T> PageMetadata asPageMetadata(RestfulPage<T> page) {
+	private <T> PageMetadata asPageMetadata(RestfulPage<T> page) {
 
 		Assert.notNull(page, "Page must not be null!");
+
 		return new PageMetadata(page.getSize(), page.getNumber(),
 				page.getTotalElements());
 	}
 
 	private Link createLink(RestfulPageable pageable, String rel) {
 
-		return new Link(pageable.getUri(), rel);
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("offset", pageable.getOffset());
+		parameters.put("limit", pageable.getLimit());
+
+		return addPaginationTemplateToLink(
+				new Link(getHrefFromCurrentRequestUri(), rel)).expand(
+				parameters);
 	}
-	
-//	private static class SimplePagedResourceAssembler<T> implements ResourceAssembler<T, Resource<T>> {
-//
-//		@Override
-//		public Resource<T> toResource(T entity) {
-//			return new Resource<T>(entity);
-//		}
-//		
-//		public List<Resource<T>> toResources(Iterable<? extends T> entities) {
-//
-//			Assert.notNull(entities);
-//			List<Resource<T>> result = new ArrayList<Resource<T>>();
-//
-//			for (T entity : entities) {
-//				result.add(toResource(entity));
-//			}
-//
-//			return result;
-//		}
-//	}
+
+	private String getHrefFromCurrentRequestUri() {
+		return ServletUriComponentsBuilder.fromCurrentRequestUri().build()
+				.toString();
+	}
+
+	public static Link addPaginationTemplateToLink(Link link) {
+		return new Link(link.getHref() + "{?offset,limit}", link.getRel());
+	}
+
 }

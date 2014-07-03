@@ -4,31 +4,26 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 public class RestfulPageable {
 	private final int offset;
 	private final int limit;
-	private final String href;
 	private final Map<String, String> filters;
 	private final List<Sorting> sortings;
 
 	private RestfulPageable(RestfulPageableBuilder builder) {
 		this.offset = builder.offset;
 		this.limit = builder.limit;
-		this.href = builder.href;
 		this.filters = builder.filters;
 		this.sortings = builder.sortings;
 	}
-	
+
 	private RestfulPageable(RestfulPageable pageble, int newOffset) {
 		this.offset = newOffset;
 		this.limit = pageble.limit;
-		this.href = pageble.href;
 		this.filters = pageble.filters;
 		this.sortings = pageble.sortings;
 	}
-	
+
 	public int getOffset() {
 		return offset;
 	}
@@ -44,11 +39,7 @@ public class RestfulPageable {
 	public List<Sorting> getSortings() {
 		return sortings;
 	}
-	
-	public String getUri() {
-		return href+"?offset="+offset+"&limit="+limit;
-	}
-	
+
 	public RestfulPageable newWithOffset(int offset) {
 		return new RestfulPageable(this, offset);
 	}
@@ -56,7 +47,6 @@ public class RestfulPageable {
 	public static class RestfulPageableBuilder {
 		private int offset = 0;
 		private int limit = 10;
-		private String href;
 		private Map<String, String> filters = Collections.emptyMap();
 		private List<Sorting> sortings = Collections.emptyList();
 
@@ -69,23 +59,15 @@ public class RestfulPageable {
 			this.limit = limit;
 			return this;
 		}
-		
-		public RestfulPageableBuilder href(String href) {
-			this.href = href;
-			return this;
-		}
-		
-		public RestfulPageableBuilder hrefFromCurrentRequestUri() {
-			this.href = ServletUriComponentsBuilder.fromCurrentRequestUri().build().toString();
-			return this;
-		}
 
-		public RestfulPageableBuilder filtersQueryString(String filtersQueryString) {
+		public RestfulPageableBuilder filtersQueryString(
+				String filtersQueryString) {
 			this.filters = this.filtersQueryStringToMap(filtersQueryString);
 			return this;
 		}
 
-		public RestfulPageableBuilder sortingsQueryString(String sortingsQueryString) {
+		public RestfulPageableBuilder sortingsQueryString(
+				String sortingsQueryString) {
 			this.sortings = this.sortingsQueryStringToMap(sortingsQueryString);
 			return this;
 		}
@@ -107,11 +89,11 @@ public class RestfulPageable {
 		}
 
 	}
-	
+
 	public static RestfulPageableBuilder newInstance() {
 		return new RestfulPageableBuilder();
 	}
-	
+
 	public final static class Sorting {
 		private final Direction direction;
 		private final String property;
@@ -124,7 +106,7 @@ public class RestfulPageable {
 		public static Sorting newWithAscendantProperty(String property) {
 			return new Sorting(Direction.ASCENDANT, property);
 		}
-		
+
 		public static Sorting newWithDescendantProperty(String property) {
 			return new Sorting(Direction.DESCENDANT, property);
 		}

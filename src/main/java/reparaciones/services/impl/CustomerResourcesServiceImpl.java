@@ -23,7 +23,7 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 	private CustomerResourceAssembler assembler;
 
 	@Autowired
-	private PagedResourcesAssembler<Customer> pagedResourceAssembler;
+	private PagedResourcesAssembler pagedResourceAssembler;
 
 	@Override
 	public Resources<CustomerResource> getCustomerResources(RestfulPageable pageable) {

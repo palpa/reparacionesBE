@@ -28,8 +28,7 @@ public class CustomersController {
 			@RequestParam(value = "limit", required = false, defaultValue = "10") int pageLimit) {
 
 		RestfulPageable pageable = RestfulPageable.newInstance()
-				.offset(pageOffset).limit(pageLimit)
-				.hrefFromCurrentRequestUri().build();
+				.offset(pageOffset).limit(pageLimit).build();
 
 		Resources<CustomerResource> resources = customerResourcesService
 				.getCustomerResources(pageable);
@@ -37,5 +36,4 @@ public class CustomersController {
 		return new ResponseEntity<Resources<CustomerResource>>(resources,
 				HttpStatus.OK);
 	}
-	
 }
