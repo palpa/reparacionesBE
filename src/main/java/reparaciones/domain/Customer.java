@@ -38,13 +38,15 @@ public class Customer implements Identifiable<Long> {
 
 	public static class CustomerBuilder {
 		
+		private static Long idIncrement = 0L;
+		
 		private final Long id;
 		private final String firstName;
 		private final String lastName;
 		private String address;
 
-		private CustomerBuilder(Long id, String firstName, String lastName) {
-			this.id = id;
+		private CustomerBuilder(String firstName, String lastName) {
+			this.id = ++CustomerBuilder.idIncrement;
 			this.firstName = firstName;
 			this.lastName = lastName;
 		}
@@ -59,7 +61,7 @@ public class Customer implements Identifiable<Long> {
 		}
 	}
 	
-	public static CustomerBuilder newInstance(Long id, String firstName, String lastName) {
-		return new CustomerBuilder(id, firstName, lastName);
+	public static CustomerBuilder newInstance(String firstName, String lastName) {
+		return new CustomerBuilder(firstName, lastName);
 	}
 }

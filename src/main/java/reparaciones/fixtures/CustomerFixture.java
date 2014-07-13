@@ -18,7 +18,7 @@ public class CustomerFixture {
 		synchronized (this) {
 			count++;
 		}
-		return Customer.newInstance(count, FIRST_NAME, LAST_NAME + ' ' + count).build();
+		return Customer.newInstance(FIRST_NAME, LAST_NAME + ' ' + count).build();
 	}
 
 	public List<Customer> buildMany(int numberOf) {
