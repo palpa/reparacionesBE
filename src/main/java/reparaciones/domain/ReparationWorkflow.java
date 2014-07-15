@@ -55,10 +55,13 @@ public class ReparationWorkflow {
 	public Boolean removeTransition(int index){
 		
 		Boolean result = false;
-		ReparationStateDescriptionTransition objectRemoved = this.transitions.remove(index);		
 		
-		if(objectRemoved != null){			
-			result = true;
+		if(index <= this.transitions.size() -1 ){
+			ReparationStateDescriptionTransition objectRemoved = this.transitions.remove(index);
+			
+			if(objectRemoved != null){			
+				result = true;
+			}
 		}
 		
 		return result;
