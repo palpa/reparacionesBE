@@ -8,12 +8,12 @@ import static org.hamcrest.Matchers.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.experimental.runners.Enclosed;
 
 import reparaciones.domain.Customer;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-public abstract class CustomerTest {
+@RunWith(Enclosed.class)
+public class CustomerTest {
 
 	public static class CustomerBuilder {
 
@@ -62,4 +62,5 @@ public abstract class CustomerTest {
 					createdCustomerWithAddress.getAddress());
 		}
 	}
+	
 }
