@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,14 +43,29 @@ public class CustomersController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> createCustomer(@RequestBody CustomerResource customerResource) {
+	public ResponseEntity<?> createCustomer(
+			@RequestBody CustomerResource customerResource) {
 
 		System.out.println(customerResource);
 
-		URI location = customerResourcesService.createCustomer(customerResource);
+		URI location = customerResourcesService
+				.createCustomer(customerResource);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(location);
 		return new ResponseEntity<Object>(headers, HttpStatus.CREATED);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteCustomer(@PathVariable("id") Long id) {
+
+		System.out.println("Trying to delete Customer ID: " + id);
+
+		HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+
+		if (customerResourcesService.deleteCustomer(id))
+			httpStatus = HttpStatus.NO_CONTENT;
+
+		return new ResponseEntity<Object>(httpStatus);
 	}
 }

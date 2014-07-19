@@ -53,4 +53,10 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 		return location;
 	}
 
+	@Override
+	public boolean deleteCustomer(Long id) {
+
+		return shop.removeCustomer(id);
+	}
+
 }

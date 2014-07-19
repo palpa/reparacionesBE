@@ -35,4 +35,30 @@ public class Shop {
 		return customers;
 	}
 
+	public Customer findCustomersById(Long id) {
+		Iterator<Customer> anIterator = this.getCustomers().iterator();
+		Customer customer = null;
+		Customer currentCustomer = null;
+
+		while (anIterator.hasNext() && customer == null) {
+			currentCustomer = anIterator.next();
+			if (currentCustomer.getId().equals(id)) {
+				customer = currentCustomer;
+			}
+		}
+
+		return customer;
+	}
+
+	public boolean removeCustomer(Long id) {
+
+		Customer customer = findCustomersById(id);
+		
+		if (customer == null)
+			return false;
+		
+		return this.getCustomers().remove(customer);
+		
+	}
+
 }

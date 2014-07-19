@@ -12,4 +12,6 @@ public interface CustomerResourcesService {
 	public Resources<CustomerResource> getCustomerResources(RestfulPageable pageable);
 	
 	public URI createCustomer (CustomerResource customerResource);
+
+	public boolean deleteCustomer(Long id);
 }
