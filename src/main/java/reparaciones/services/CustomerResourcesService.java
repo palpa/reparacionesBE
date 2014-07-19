@@ -14,4 +14,6 @@ public interface CustomerResourcesService {
 	public URI createCustomer (CustomerResource customerResource);
 
 	public boolean deleteCustomer(Long id);
+
+	public CustomerResource getCustomer(Long id);
 }

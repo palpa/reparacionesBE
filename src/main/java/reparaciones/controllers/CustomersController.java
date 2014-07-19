@@ -55,7 +55,22 @@ public class CustomersController {
 		headers.setLocation(location);
 		return new ResponseEntity<Object>(headers, HttpStatus.CREATED);
 	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<CustomerResource> getCustomer(@PathVariable("id") Long id) {
 
+		System.out.println("Trying to get Customer ID: " + id);
+
+		HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+
+		CustomerResource customerResource = customerResourcesService.getCustomer(id);
+		
+		if (customerResource != null)
+			httpStatus = HttpStatus.OK;
+
+		return new ResponseEntity<CustomerResource>(customerResource, httpStatus);
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteCustomer(@PathVariable("id") Long id) {
 

@@ -59,4 +59,15 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 		return shop.removeCustomer(id);
 	}
 
+	@Override
+	public CustomerResource getCustomer(Long id) {
+
+		Customer customer = shop.findCustomersById(id);
+		
+		if (customer == null)
+			return null;
+		
+		return assembler.toResource(customer);
+	}
+
 }
