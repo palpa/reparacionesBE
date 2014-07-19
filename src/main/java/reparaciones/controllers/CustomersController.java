@@ -71,6 +71,19 @@ public class CustomersController {
 		return new ResponseEntity<CustomerResource>(customerResource, httpStatus);
 	}
 	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<?> updateCustomer(@PathVariable("id") Long id, @RequestBody CustomerResource customerResource) {
+
+		System.out.println("Trying to update Customer ID: " + id);
+
+		HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+
+		if (customerResourcesService.updateCustomer(id, customerResource))
+			httpStatus = HttpStatus.NO_CONTENT;
+
+		return new ResponseEntity<Object>(httpStatus);
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> deleteCustomer(@PathVariable("id") Long id) {
 

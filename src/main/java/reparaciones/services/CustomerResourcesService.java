@@ -9,11 +9,14 @@ import reparaciones.utils.RestfulPageable;
 
 public interface CustomerResourcesService {
 
-	public Resources<CustomerResource> getCustomerResources(RestfulPageable pageable);
-	
-	public URI createCustomer (CustomerResource customerResource);
+	public Resources<CustomerResource> getCustomerResources(
+			RestfulPageable pageable);
+
+	public URI createCustomer(CustomerResource customerResource);
 
 	public boolean deleteCustomer(Long id);
 
 	public CustomerResource getCustomer(Long id);
+
+	public boolean updateCustomer(Long id, CustomerResource customerResource);
 }

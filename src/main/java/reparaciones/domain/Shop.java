@@ -35,7 +35,7 @@ public class Shop {
 		return customers;
 	}
 
-	public Customer findCustomersById(Long id) {
+	public Customer findCustomerById(Long id) {
 		Iterator<Customer> anIterator = this.getCustomers().iterator();
 		Customer customer = null;
 		Customer currentCustomer = null;
@@ -52,13 +52,12 @@ public class Shop {
 
 	public boolean removeCustomer(Long id) {
 
-		Customer customer = findCustomersById(id);
-		
+		Customer customer = findCustomerById(id);
+
 		if (customer == null)
 			return false;
-		
+
 		return this.getCustomers().remove(customer);
-		
 	}
 
 }

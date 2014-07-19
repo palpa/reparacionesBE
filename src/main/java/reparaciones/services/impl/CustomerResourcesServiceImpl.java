@@ -48,7 +48,8 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 		shop.addCustomer(customer);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentServletMapping()
-				.path("/customers/{id}").build().expand(customer.getId()).toUri();
+				.path("/customers/{id}").build().expand(customer.getId())
+				.toUri();
 
 		return location;
 	}
@@ -62,12 +63,29 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 	@Override
 	public CustomerResource getCustomer(Long id) {
 
-		Customer customer = shop.findCustomersById(id);
-		
+		Customer customer = shop.findCustomerById(id);
+
 		if (customer == null)
 			return null;
-		
+
 		return assembler.toResource(customer);
+	}
+
+	@Override
+	public boolean updateCustomer(Long id, CustomerResource customerResource) {
+
+		Customer customer = shop.findCustomerById(id);
+
+		if (customer == null)
+			return false;
+
+		if (customerResource.getFirstName() != null)
+			customer.setFirstName(customerResource.getFirstName());
+
+		if (customerResource.getLastName() != null)
+			customer.setLastName(customerResource.getLastName());
+
+		return true;
 	}
 
 }

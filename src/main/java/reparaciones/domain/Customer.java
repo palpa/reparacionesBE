@@ -5,8 +5,8 @@ import org.springframework.hateoas.Identifiable;
 public class Customer implements Identifiable<Long> {
 	
 	private final Long id;
-	private final String firstName;
-	private final String lastName;
+	private String firstName;
+	private String lastName;
 	private final String address;
 
 	private Customer() {
@@ -28,10 +28,18 @@ public class Customer implements Identifiable<Long> {
 		return firstName;
 	}
 
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
 	public String getLastName() {
 		return lastName;
 	}
 
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
 	public String getAddress() {
 		return address;
 	}
