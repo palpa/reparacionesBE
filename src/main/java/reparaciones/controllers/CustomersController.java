@@ -32,14 +32,19 @@ public class CustomersController {
 			@RequestParam(value = "offset", required = false, defaultValue = "0") int pageOffset,
 			@RequestParam(value = "limit", required = false, defaultValue = "10") int pageLimit) {
 
+		HttpStatus httpStatus = HttpStatus.NO_CONTENT;
+
 		RestfulPageable pageable = RestfulPageable.newInstance()
 				.offset(pageOffset).limit(pageLimit).build();
 
 		Resources<CustomerResource> resources = customerResourcesService
 				.getCustomerResources(pageable);
 
+		if (resources.getContent().size() > 0)
+			httpStatus = HttpStatus.OK;
+
 		return new ResponseEntity<Resources<CustomerResource>>(resources,
-				HttpStatus.OK);
+				httpStatus);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -55,24 +60,28 @@ public class CustomersController {
 		headers.setLocation(location);
 		return new ResponseEntity<Object>(headers, HttpStatus.CREATED);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<CustomerResource> getCustomer(@PathVariable("id") Long id) {
+	public ResponseEntity<CustomerResource> getCustomer(
+			@PathVariable("id") Long id) {
 
 		System.out.println("Trying to get Customer ID: " + id);
 
 		HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
-		CustomerResource customerResource = customerResourcesService.getCustomer(id);
-		
+		CustomerResource customerResource = customerResourcesService
+				.getCustomer(id);
+
 		if (customerResource != null)
 			httpStatus = HttpStatus.OK;
 
-		return new ResponseEntity<CustomerResource>(customerResource, httpStatus);
+		return new ResponseEntity<CustomerResource>(customerResource,
+				httpStatus);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateCustomer(@PathVariable("id") Long id, @RequestBody CustomerResource customerResource) {
+	public ResponseEntity<?> updateCustomer(@PathVariable("id") Long id,
+			@RequestBody CustomerResource customerResource) {
 
 		System.out.println("Trying to update Customer ID: " + id);
 

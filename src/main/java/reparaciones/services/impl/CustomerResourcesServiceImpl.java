@@ -1,6 +1,7 @@
 package reparaciones.services.impl;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resources;
@@ -32,10 +33,17 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 	public Resources<CustomerResource> getCustomerResources(
 			RestfulPageable pageable) {
 
-		RestfulPage<Customer> page = RestfulPage.createPage(
-				shop.getCustomers(), pageable);
-
-		return pagedResourceAssembler.toResource(page, assembler);
+		List<Customer> customers = shop.getCustomers();
+		
+		if (customers.size() > 0) {
+			RestfulPage<Customer> page = RestfulPage.createPage(
+					customers, pageable);
+			
+			return pagedResourceAssembler.toResource(page, assembler);
+		}
+		
+		//Return an empty resource
+		return new Resources<CustomerResource>(assembler.toResources(customers));
 	}
 
 	@Override
