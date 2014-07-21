@@ -74,18 +74,13 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 	@Override
 	public boolean updateCustomer(Long id, CustomerResource customerResource) {
 
-		Customer customer = shop.findCustomerById(id);
+		Customer customer = Customer
+				.newInstance(customerResource.getFirstName(),
+						customerResource.getLastName())
+				.id(id)
+				.build();
 
-		if (customer == null)
-			return false;
-
-		if (customerResource.getFirstName() != null)
-			customer.setFirstName(customerResource.getFirstName());
-
-		if (customerResource.getLastName() != null)
-			customer.setLastName(customerResource.getLastName());
-
-		return true;
+		return shop.updateCustomer(customer);
 	}
 
 }

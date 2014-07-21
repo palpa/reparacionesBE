@@ -7,7 +7,7 @@ public class Customer implements Identifiable<Long> {
 	private final Long id;
 	private String firstName;
 	private String lastName;
-	private final String address;
+	private String address;
 
 	private Customer() {
 		throw new AssertionError();
@@ -28,27 +28,31 @@ public class Customer implements Identifiable<Long> {
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
 	public String getLastName() {
 		return lastName;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	
 	public String getAddress() {
 		return address;
+	}
+
+	public void updateAttributes(Customer customer) {
+		
+		if (customer.firstName != null)
+			this.firstName = customer.firstName;
+		
+		if (customer.lastName != null)
+			this.lastName = customer.lastName;
+		
+		if (customer.address != null)
+			this.address = customer.address;
 	}
 
 	public static class CustomerBuilder {
 
 		private static Long idIncrement = 1L;
 
-		private final Long id = CustomerBuilder.idIncrement++;
+		private Long id = 0L;
 		private final String firstName;
 		private final String lastName;
 		private String address;
@@ -58,12 +62,20 @@ public class Customer implements Identifiable<Long> {
 			this.lastName = lastName;
 		}
 
+		public CustomerBuilder id(Long id) {
+			this.id = id;
+			return this;
+		}
+
 		public CustomerBuilder address(String address) {
 			this.address = address;
 			return this;
 		}
 
 		public Customer build() {
+			if (this.id == 0L)
+				this.id = CustomerBuilder.idIncrement++;
+
 			return new Customer(this);
 		}
 	}

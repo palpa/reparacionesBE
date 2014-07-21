@@ -60,4 +60,16 @@ public class Shop {
 		return this.getCustomers().remove(customer);
 	}
 
+	public boolean updateCustomer(Customer customer) {
+
+		Customer actualCustomer = findCustomerById(customer.getId());
+		
+		if (actualCustomer == null)
+			return false;
+		
+		actualCustomer.updateAttributes(customer);
+		
+		return true;
+	}
+
 }
