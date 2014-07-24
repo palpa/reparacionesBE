@@ -1,14 +1,11 @@
 package reparaciones.domain;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import reparaciones.domain.ReparationStateDescription.ReparationStateDescriptionBuilder;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public abstract class ReparationStateDescriptionTransitionTests {
@@ -22,8 +19,8 @@ public abstract class ReparationStateDescriptionTransitionTests {
 		
 		@BeforeClass
 		public static void initialize(){
-			 initialState = ReparationStateDescriptionBuilder.newInstance(INITIAL_STATE_NAME).build();
-			 finalState = ReparationStateDescriptionBuilder.newInstance(FINAL_STATE_NAME).build();
+			 initialState = ReparationStateDescription.getBuilder(INITIAL_STATE_NAME) .build();					 
+			 finalState = ReparationStateDescription.getBuilder(FINAL_STATE_NAME).build();
 		}
 		
 		@Test

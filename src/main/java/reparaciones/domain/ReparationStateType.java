@@ -2,8 +2,6 @@ package reparaciones.domain;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import reparaciones.helpers.ConstantsExceptionHelper;
 
 
@@ -13,25 +11,16 @@ public class ReparationStateType {
 	private Date creationDate;
 	private Date finishDate;
 	
-	private ReparationStateType(ReparationStateTypeBuilder builder) throws Exception{
+	private ReparationStateType(ReparationStateTypeBuilder builder) throws IllegalArgumentException{
 		this.name = builder.getName();
-		this.checkAndAssignDates(builder);
+		this.creationDate = builder.getCreationDate();
+		this.finishDate = builder.getFinishDate();	
 		
 	}
 	
-	private void checkAndAssignDates(ReparationStateTypeBuilder builder) throws Exception {
-		
-		//Check if the creation date isn't less or equals than finish date
-		if (builder.hasDates()) {
-			if (builder.getCreationDate().after(builder.getFinishDate())) {
-				throw new IllegalArgumentException(ConstantsExceptionHelper.ERROR_CREATE_DATE_BIGGER_THAN_FINISH_DATE);
-			}
-		}
-		
-		this.creationDate = builder.getCreationDate();
-		this.finishDate = builder.getFinishDate();		
+	public static ReparationStateTypeBuilder getBuilder(String name){
+		return new ReparationStateTypeBuilder(name);
 	}	
-	
 
 	public String getName() {
 		return name;
@@ -77,22 +66,27 @@ public class ReparationStateType {
 			return this;
 		}
 		
-		public ReparationStateType build() throws Exception{
+		public ReparationStateType build() throws IllegalArgumentException{			
+			this.checkAssignedDatesDates();
 			return new ReparationStateType(this);
 		}
 		
-		public static ReparationStateTypeBuilder newInstance(String name){
-			return new ReparationStateTypeBuilder(name);
-		}
-		
-		public boolean hasDates(){
+		private void checkAssignedDatesDates() throws IllegalArgumentException {
 			
+			//Check if the creation date isn't less or equals than finish date
+			if (this.haveDates()) {
+				if (this.getCreationDate().after(this.getFinishDate())) {
+					throw new IllegalArgumentException(ConstantsExceptionHelper.ERROR_CREATE_DATE_BIGGER_THAN_FINISH_DATE);
+				}
+			}				
+		}		
+		
+		public boolean haveDates(){			
 			boolean result = false;
 			
 			if((this.getCreationDate() != null) && (this.getFinishDate() != null)){
 				result = true;
-			}
-			
+			}			
 			return result;
 		}
 		
