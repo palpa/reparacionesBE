@@ -7,7 +7,7 @@ import reparaciones.domain.ReparationStateDescriptionTransition;
 
 public class ReparationWorkflow {	
 	
-	private String name;	
+	private final String name;	
 	private List<ReparationStateDescriptionTransition> transitions;
 	
 	private ReparationWorkflow(){
@@ -29,10 +29,6 @@ public class ReparationWorkflow {
 
 	public List<ReparationStateDescriptionTransition> getTransitions() {
 		return transitions;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public void setTransitions(
