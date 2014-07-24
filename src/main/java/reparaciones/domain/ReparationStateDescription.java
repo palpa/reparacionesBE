@@ -2,7 +2,7 @@ package reparaciones.domain;
 
 public class ReparationStateDescription {
 
-	private final Boolean finalState;
+	private final boolean finalState;
 	private final String name;
 	private final ReparationStateType type;
 
@@ -16,8 +16,12 @@ public class ReparationStateDescription {
 		this.name = builder.getName();
 		this.type = builder.getType();
 	}
+	
+	public static ReparationStateDescriptionBuilder getBuilder(String name){
+		return new ReparationStateDescriptionBuilder(name);
+	}
 
-	public Boolean FinalState() {
+	public boolean FinalState() {
 		return finalState;
 	}
 
@@ -27,10 +31,10 @@ public class ReparationStateDescription {
 	
 	public ReparationStateType getType() {
 		return type;
-	}
+	}	
 	
 	public static class ReparationStateDescriptionBuilder {
-		private Boolean finalState;
+		private boolean finalState;
 		private final String name;
 		private ReparationStateType type;
 		
@@ -38,7 +42,7 @@ public class ReparationStateDescription {
 			this.name = name;
 		}
 		
-		private Boolean getFinalState() {
+		private boolean getFinalState() {
 			return finalState;
 		}
 
@@ -50,7 +54,7 @@ public class ReparationStateDescription {
 			return type;
 		}
 		
-		public ReparationStateDescriptionBuilder finalState(Boolean isFinalState){
+		public ReparationStateDescriptionBuilder finalState(boolean isFinalState){
 			this.finalState = finalState;
 			return this;
 		}
@@ -62,11 +66,8 @@ public class ReparationStateDescription {
 		
 		public ReparationStateDescription build(){
 			return new ReparationStateDescription(this);
-		}
-		
-		public static ReparationStateDescriptionBuilder newInstance(String name){
-			return new ReparationStateDescriptionBuilder(name);
-		}
+		}		
+	
 	}	
 	
 }

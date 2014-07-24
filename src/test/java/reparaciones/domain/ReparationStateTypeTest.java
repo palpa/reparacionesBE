@@ -12,7 +12,6 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import reparaciones.domain.ReparationStateType.ReparationStateTypeBuilder;
 import reparaciones.helpers.ConstantsExceptionHelper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,15 +36,12 @@ public abstract class ReparationStateTypeTest {
 			calendar.add(Calendar.DATE,1);			
 			Date finishDate = calendar.getTime();
 			
-			//Use a builder.
-			ReparationStateTypeBuilder stateTypeBuilder = ReparationStateTypeBuilder.newInstance(STATE_TYPE_NAME);
-			stateTypeBuilder.creationDate(creationDate)
-							.finishDate(finishDate);
-			
 			//Create a state type.
 			exception.none();
-			ReparationStateType steteType = stateTypeBuilder.build();
-			
+			ReparationStateType steteType = ReparationStateType.getBuilder(STATE_TYPE_NAME)
+															   .creationDate(creationDate)
+															   .finishDate(finishDate)
+															   .build();			
 		
 			assertNotNull(steteType);
 			assertEquals(steteType.getName(), STATE_TYPE_NAME);
@@ -76,7 +72,7 @@ public abstract class ReparationStateTypeTest {
 		    			exception.expect(IllegalArgumentException.class);
 		    			exception.expectMessage(ConstantsExceptionHelper.ERROR_CREATE_DATE_BIGGER_THAN_FINISH_DATE);
 		    			
-		    			ReparationStateTypeBuilder.newInstance(STATE_TYPE_NAME)
+		    			ReparationStateType.getBuilder(STATE_TYPE_NAME)
 		    									  .creationDate(creationDate)
 		    									  .finishDate(finishDate)
 		    									  .build();		    			
