@@ -1,8 +1,11 @@
 package reparaciones.services.impl;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import reparaciones.domain.Customer;
 import reparaciones.domain.Shop;
@@ -26,12 +29,28 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 	private RestfulPagedResourcesAssembler pagedResourceAssembler;
 
 	@Override
-	public Resources<CustomerResource> getCustomerResources(RestfulPageable pageable) {
+	public Resources<CustomerResource> getCustomerResources(
+			RestfulPageable pageable) {
 
 		RestfulPage<Customer> page = RestfulPage.createPage(
 				shop.getCustomers(), pageable);
 
 		return pagedResourceAssembler.toResource(page, assembler);
+	}
+
+	@Override
+	public URI createCustomer(CustomerResource customerResource) {
+
+		Customer customer = Customer
+				.newInstance(customerResource.getFirstName(),
+						customerResource.getLastName()).build();
+
+		shop.addCustomer(customer);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentServletMapping()
+				.path("/customers/{id}").build().expand(customer.getId()).toUri();
+
+		return location;
 	}
 
 }

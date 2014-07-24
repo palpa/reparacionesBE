@@ -21,4 +21,12 @@ public class CustomerResource extends ResourceSupport {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+	@Override
+	public String toString() {
+		return "CustomerResource [firstName=" + firstName + ", lastName="
+				+ lastName + ", toString()=" + super.toString() + "]";
+	}
+	
+	
 }
