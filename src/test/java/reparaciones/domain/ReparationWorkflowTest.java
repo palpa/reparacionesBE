@@ -9,15 +9,22 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import reparaciones.domain.ReparationStateDescription.ReparationStateDescriptionBuilder;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 public abstract class ReparationWorkflowTest {
+	
+	private static String INITIAL_STATE_NAME = "nameInitialState";
+	private static String FINAL_STATE_NAME = "nameFinalState";
+	private static String NAME_WORKFLOW = "nameOfmyWorkflow";
+	
 
 	public static class FactoryReparationWorkflowTest{
 		
-		private static String NAME_WORKFLOW = "nameOfmyWorkflow";
+		
 		
 		@Test
-		public void createAReparationWorflow(){			
+		public void shuldCreateAReparationWorflowWhenUseAFactory(){			
 			ReparationWorkflow workflow = ReparationWorkflow.newInstance(NAME_WORKFLOW);
 			
 			assertNotNull(workflow);
@@ -29,21 +36,20 @@ public abstract class ReparationWorkflowTest {
 	public static class AddTransitionsToWorkflow{
 		
 		private static ReparationWorkflow workflow;
-		private static String NAME_WORKFLOW = "nameOfmyWorkflow";
-		private static int QUANTITY_OF_TRANSITION = 5;
-		private static String NAME_INITIAL_STATE = "nameInitialState";
-		private static String NAME_FINAL_STATE = "nameFinalState";
+		private static String WORKFLOW_NAME = "nameOfmyWorkflow";
+		private static int TREANSITIONTS_QUANTITY = 5;
+		
 		
 		
 		@BeforeClass
 		public static void initialize(){
 			
-			workflow = ReparationWorkflow.newInstance(NAME_WORKFLOW);
+			workflow = ReparationWorkflow.newInstance(WORKFLOW_NAME);
 		 
-			for (int index = 0; index < QUANTITY_OF_TRANSITION; index ++){
+			for (int index = 0; index < TREANSITIONTS_QUANTITY; index ++){
 				
-				ReparationStateDescription initialState = ReparationStateDescription.newInstance(NAME_INITIAL_STATE + "_" + index);  
-				ReparationStateDescription finalState =  ReparationStateDescription.newInstance(NAME_FINAL_STATE + "_" + index);
+				ReparationStateDescription initialState = ReparationStateDescriptionBuilder.newInstance(INITIAL_STATE_NAME + "_" + index).build();  
+				ReparationStateDescription finalState =  ReparationStateDescriptionBuilder.newInstance(FINAL_STATE_NAME + "_" + index).build();
 				
 				ReparationStateDescriptionTransition transition = ReparationStateDescriptionTransition.newInstance(initialState, finalState);		
 				
@@ -53,21 +59,21 @@ public abstract class ReparationWorkflowTest {
 		}
 		
 		@Test
-		public void getNumberOfTransitionTest(){
-			assertEquals(QUANTITY_OF_TRANSITION, workflow.getNumberOfTransitions());
+		public void shouldGetNumberOfTransitionTest(){
+			assertEquals(TREANSITIONTS_QUANTITY, workflow.getNumberOfTransitions());
 		}		
 		
 		@Test
-		public void addATransitionToWorkflowTest(){
+		public void shouldAddATransitionToWorkflowTest(){
 			
-			ReparationStateDescription initialState = ReparationStateDescription.newInstance(NAME_INITIAL_STATE);  
-			ReparationStateDescription finalState =  ReparationStateDescription.newInstance(NAME_FINAL_STATE);
+			ReparationStateDescription initialState = ReparationStateDescriptionBuilder.newInstance(INITIAL_STATE_NAME).build();  
+			ReparationStateDescription finalState =  ReparationStateDescriptionBuilder.newInstance(FINAL_STATE_NAME).build();
 			
 			ReparationStateDescriptionTransition transition = ReparationStateDescriptionTransition.newInstance(initialState, finalState);
 			
 			workflow.addReparationStateDescriptionTransition(transition);
 			
-			assertEquals(workflow.getNumberOfTransitions(), QUANTITY_OF_TRANSITION + 1);
+			assertEquals(workflow.getNumberOfTransitions(), TREANSITIONTS_QUANTITY + 1);
 			
 		}
 		
@@ -86,7 +92,7 @@ public abstract class ReparationWorkflowTest {
 		}
 		
 		@Test
-		public void removeTransitionOfTheWorkflowWhenTheWorkflowIsEmpty(){		
+		public void shouldReturnFalseWhenRemoveTransitionOfTheWorkflowAndItIsEmpty(){		
 			
 			Boolean resultRemove = workflow.removeTransition(0);
 			
@@ -95,10 +101,10 @@ public abstract class ReparationWorkflowTest {
 		}
 		
 		@Test
-		public void removeTransitionOfTheWorkflowWithElements(){
+		public void shouldRemoveTransitionOfTheWorkflowAndReturnTrueWhenItHaveElements(){
 			
-			ReparationStateDescription initialState = ReparationStateDescription.newInstance(INITAL_STATE_NAME);
-			ReparationStateDescription finalState = ReparationStateDescription.newInstance(FINAL_STATE_NAME);
+			ReparationStateDescription initialState = ReparationStateDescriptionBuilder.newInstance(INITAL_STATE_NAME).build();
+			ReparationStateDescription finalState = ReparationStateDescriptionBuilder.newInstance(FINAL_STATE_NAME).build();
 			ReparationStateDescriptionTransition transition = ReparationStateDescriptionTransition.newInstance(initialState, finalState);
 			
 			workflow.addReparationStateDescriptionTransition(transition);
@@ -112,10 +118,10 @@ public abstract class ReparationWorkflowTest {
 		}
 		
 		@Test
-		public void removeTransitionOfTheWorkflowWithLargestIndex(){
+		public void shouldReturnFalseWhenTryToRemoveTransitionOfTheWorkflowWithALargestIndex(){
 			
-			ReparationStateDescription initialState = ReparationStateDescription.newInstance(INITAL_STATE_NAME);
-			ReparationStateDescription finalState = ReparationStateDescription.newInstance(FINAL_STATE_NAME);
+			ReparationStateDescription initialState = ReparationStateDescriptionBuilder.newInstance(INITAL_STATE_NAME).build();
+			ReparationStateDescription finalState = ReparationStateDescriptionBuilder.newInstance(FINAL_STATE_NAME).build();
 			ReparationStateDescriptionTransition transition = ReparationStateDescriptionTransition.newInstance(initialState, finalState);
 			
 			workflow.addReparationStateDescriptionTransition(transition);

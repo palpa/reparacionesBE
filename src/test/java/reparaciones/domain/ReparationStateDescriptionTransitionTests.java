@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import reparaciones.domain.ReparationStateDescription.ReparationStateDescriptionBuilder;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 public abstract class ReparationStateDescriptionTransitionTests {
 
@@ -20,12 +22,12 @@ public abstract class ReparationStateDescriptionTransitionTests {
 		
 		@BeforeClass
 		public static void initialize(){
-			 initialState = ReparationStateDescription.newInstance(INITIAL_STATE_NAME);
-			 finalState = ReparationStateDescription.newInstance(FINAL_STATE_NAME);
+			 initialState = ReparationStateDescriptionBuilder.newInstance(INITIAL_STATE_NAME).build();
+			 finalState = ReparationStateDescriptionBuilder.newInstance(FINAL_STATE_NAME).build();
 		}
 		
 		@Test
-		public void createReparacionesStateDescriptionTreansition() {
+		public void shouldCreateReparacionesStateDescriptionTreansitionWhenUseAFactory() {
 			ReparationStateDescriptionTransition reparationTransition = ReparationStateDescriptionTransition
 					.newInstance(initialState, finalState);
 
