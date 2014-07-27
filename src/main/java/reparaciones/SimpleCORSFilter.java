@@ -27,7 +27,7 @@ public class SimpleCORSFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		httpResponse.setHeader("Access-Control-Allow-Origin", "*");
 		httpResponse.setHeader("Access-Control-Allow-Methods",
-				"POST, GET, OPTIONS, DELETE");
+				"POST, PUT, GET, OPTIONS, DELETE");
 		httpResponse.setHeader("Access-Control-Max-Age", "3600");
 		httpResponse.setHeader("Access-Control-Allow-Headers",
 				"x-requested-with, Content-Type");
