@@ -48,9 +48,9 @@ public class ReparationWorkflow {
 		return this.transitions.get(index);
 	}
 	
-	public Boolean removeTransition(int index){
+	public boolean removeTransition(int index){
 		
-		Boolean result = false;
+		boolean result = false;
 		
 		if(index <= this.transitions.size() -1 ){
 			ReparationStateDescriptionTransition objectRemoved = this.transitions.remove(index);

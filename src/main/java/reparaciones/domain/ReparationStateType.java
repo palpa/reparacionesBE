@@ -18,8 +18,8 @@ public class ReparationStateType {
 		
 	}
 	
-	public static ReparationStateTypeBuilder getBuilder(String name){
-		return new ReparationStateTypeBuilder(name);
+	public static ReparationStateTypeBuilder getBuilder(String nameOfReparationStateType){
+		return new ReparationStateTypeBuilder(nameOfReparationStateType);
 	}	
 
 	public String getName() {
