@@ -17,8 +17,8 @@ public class ReparationStateDescription {
 		this.type = builder.getType();
 	}
 	
-	public static ReparationStateDescriptionBuilder getBuilder(String name){
-		return new ReparationStateDescriptionBuilder(name);
+	public static ReparationStateDescriptionBuilder getBuilder(String nameOfReparationStateDescription){
+		return new ReparationStateDescriptionBuilder(nameOfReparationStateDescription);
 	}
 
 	public boolean FinalState() {
