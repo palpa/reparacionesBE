@@ -51,7 +51,7 @@ public class RestfulPagedResourcesAssembler {
 		Assert.notNull(page, "Page must not be null!");
 
 		return new PageMetadata(page.getSize(), page.getNumber(),
-				page.getTotalElements());
+				page.getTotalElements(), page.getTotalPages());
 	}
 
 	private Link createLink(RestfulPageable pageable, String rel) {
