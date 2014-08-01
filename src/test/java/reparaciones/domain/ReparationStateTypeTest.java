@@ -25,7 +25,7 @@ public abstract class ReparationStateTypeTest {
 		public ExpectedException exception = ExpectedException.none();
 		
 		@Test
-		public void shouldCreateAReparationStateTypeWhenUseABuilder() throws Exception {
+		public void shouldCreateAReparationStateTypeWhenUseABuilder() {
 			
 			//Create a creation date.
 			Date creationDate = new Date();
@@ -37,7 +37,6 @@ public abstract class ReparationStateTypeTest {
 			Date finishDate = calendar.getTime();
 			
 			//Create a state type.
-			exception.none();
 			ReparationStateType steteType = ReparationStateType.getBuilder(STATE_TYPE_NAME)
 															   .creationDate(creationDate)
 															   .finishDate(finishDate)

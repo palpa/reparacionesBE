@@ -18,7 +18,7 @@ public class BeansConfiguration {
 
 		log.info("Shop created!");
 
-		shop.setCustomers(CustomerFixture.aCustomer().buildMany(5));
+		shop.setCustomers(CustomerFixture.aCustomer().buildMany(15));
 		
 		return shop;
 	}

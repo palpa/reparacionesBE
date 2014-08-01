@@ -55,7 +55,7 @@ public class ReparationStateDescription {
 		}
 		
 		public ReparationStateDescriptionBuilder finalState(boolean isFinalState){
-			this.finalState = finalState;
+			this.finalState = isFinalState;
 			return this;
 		}
 		
