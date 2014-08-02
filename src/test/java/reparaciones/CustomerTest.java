@@ -17,6 +17,7 @@ public class CustomerTest {
 
 	public static class CustomerBuilder {
 
+		private static final String CUSTOMER_DNI = "33569857";
 		private static final String CUSTOMER_FIRST_NAME = "John";
 		private static final String CUSTOMER_LAST_NAME = "Snow";
 		private static final String CUSTOMER_ADDRESS = "Castle Black";
@@ -31,7 +32,10 @@ public class CustomerTest {
 		public void createACustomerWhenOnlyequiredAtributesGiven() {
 
 			Customer createdCustomerWithAddress = Customer
-					.newInstance(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME)
+					.getBuilder(
+							CUSTOMER_DNI,
+							CUSTOMER_FIRST_NAME,
+							CUSTOMER_LAST_NAME)
 					.build();
 
 			assertEquals(customerId, createdCustomerWithAddress.getId());
@@ -46,7 +50,10 @@ public class CustomerTest {
 		public void createACustomerWhenRequiredAtributesAndAddressGiven() {
 
 			Customer createdCustomerWithAddress = Customer
-					.newInstance(CUSTOMER_FIRST_NAME, CUSTOMER_LAST_NAME)
+					.getBuilder(
+							CUSTOMER_DNI,
+							CUSTOMER_FIRST_NAME,
+							CUSTOMER_LAST_NAME)
 					.address(CUSTOMER_ADDRESS)
 					.build();
 
@@ -62,5 +69,5 @@ public class CustomerTest {
 					createdCustomerWithAddress.getAddress());
 		}
 	}
-	
+
 }

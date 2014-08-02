@@ -19,10 +19,12 @@ public class CustomerResourceAssembler extends ResourceAssemblerSupport<Customer
 
 		CustomerResource resource = createResourceWithId(entity.getId(), entity);
 		
+		resource.setDni(entity.getDni());
 		resource.setFirstName(entity.getFirstName());
 		resource.setLastName(entity.getLastName());
-		
-		//resource.add(linkTo(methodOn(CustomerController.class).customers()).withSelfRel());
+		resource.setAddress(entity.getAddress());
+		resource.setEMail(entity.getEMail());
+		resource.setContactNumber(entity.getContactNumber());
 		
 		return resource;
 	}

@@ -48,7 +48,10 @@ public class RestfulPage<T> implements Iterable<T> {
 
 		List<List<T>> pages = Lists.partition(elements, pageable.getLimit());
 
-		return new RestfulPage<T>(pages.get(pageable.getOffset()), pageable, elements.size());
+		int offset = pageable.getOffset();
+		List<T> page = pages.get(offset);
+
+		return new RestfulPage<T>(page, pageable, elements.size());
 	}
 
 	@Override

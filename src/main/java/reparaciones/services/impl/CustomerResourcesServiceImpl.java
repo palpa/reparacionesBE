@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import reparaciones.domain.Customer;
+import reparaciones.domain.Customer.CustomerBuilder;
 import reparaciones.domain.Shop;
 import reparaciones.resources.CustomerResource;
 import reparaciones.resources.CustomerResourceAssembler;
@@ -34,24 +35,22 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 			RestfulPageable pageable) {
 
 		List<Customer> customers = shop.getCustomers();
-		
+
 		if (customers.size() > 0) {
 			RestfulPage<Customer> page = RestfulPage.createPage(
 					customers, pageable);
-			
+
 			return pagedResourceAssembler.toResource(page, assembler);
 		}
-		
-		//Return an empty resource
+
+		// Return an empty resource
 		return new Resources<CustomerResource>(assembler.toResources(customers));
 	}
 
 	@Override
 	public URI createCustomer(CustomerResource customerResource) {
 
-		Customer customer = Customer
-				.newInstance(customerResource.getFirstName(),
-						customerResource.getLastName()).build();
+		Customer customer = customerResourceToCustomer(customerResource);
 
 		shop.addCustomer(customer);
 
@@ -60,6 +59,46 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 				.toUri();
 
 		return location;
+	}
+	
+	private Customer customerResourceToCustomer(
+			CustomerResource customerResource) {
+		return customerResourceToCustomer (customerResource, null);
+	}
+
+	private Customer customerResourceToCustomer(
+			CustomerResource customerResource, Long customerId) {
+
+		CustomerBuilder customerBuilder = Customer.getBuilder(
+				customerResource.getDni(),
+				customerResource.getFirstName(),
+				customerResource.getLastName()
+				);
+		
+		if (customerId != null)
+		{
+			customerBuilder.id(customerId);
+		}
+		
+		String customerAddress = customerResource.getAddress();
+		if (customerAddress != null)
+		{
+			customerBuilder.address(customerAddress);
+		}
+		
+		String customerMail = customerResource.getEMail();
+		if (customerMail != null)
+		{
+			customerBuilder.email(customerMail);
+		}
+		
+		String customerContactNumber = customerResource.getContactNumber();
+		if (customerContactNumber != null)
+		{
+			customerBuilder.contactNumber(customerContactNumber);
+		}
+		
+		return customerBuilder.build();
 	}
 
 	@Override
@@ -82,11 +121,7 @@ public class CustomerResourcesServiceImpl implements CustomerResourcesService {
 	@Override
 	public boolean updateCustomer(Long id, CustomerResource customerResource) {
 
-		Customer customer = Customer
-				.newInstance(customerResource.getFirstName(),
-						customerResource.getLastName())
-				.id(id)
-				.build();
+		Customer customer = customerResourceToCustomer(customerResource, id);
 
 		return shop.updateCustomer(customer);
 	}
