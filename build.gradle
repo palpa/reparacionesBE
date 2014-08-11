@@ -49,6 +49,9 @@ dependencies {
    
     compile ("com.google.guava:guava:17.0")
     
+    // Required by Traverson
+    compile("com.jayway.jsonpath:json-path:0.9.1")
+    
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
