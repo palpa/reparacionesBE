@@ -4,23 +4,32 @@ import org.springframework.hateoas.ResourceSupport;
 
 public final class ShopResource extends ResourceSupport {
 
-	private final String name;
-	private final boolean apiRoot = true;
+	private String name;
+	private boolean apiRoot;
 
-	private ShopResource(String shopName) {
-		super();
-		this.name = shopName;
+	public static ShopResource newInstance(String shopName) {
+		
+		ShopResource shopResource = new ShopResource();
+		shopResource.setName(shopName);
+		shopResource.setApiRoot(true);
+		
+		return shopResource;
 	}
 
 	public String getName() {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public boolean isApiRoot() {
 		return apiRoot;
 	}
-	
-	public static ShopResource newInstance (String shopName){
-		return new ShopResource (shopName);
+
+	public void setApiRoot(boolean apiRoot) {
+		this.apiRoot = apiRoot;
 	}
+
 }
