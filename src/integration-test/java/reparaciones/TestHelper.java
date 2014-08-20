@@ -1,27 +1,14 @@
 package reparaciones;
 
 
-import java.net.URI;
-
-import org.springframework.hateoas.MediaTypes;
-import org.springframework.hateoas.client.Traverson;
-
-import reparaciones.utils.RestfulHalResource;
+import reparaciones.utils.RestfulHalClient;
 
 
 public class TestHelper {
 	
-	public static RestfulHalResource getShopRestResource(int port) {
+	public static RestfulHalClient getRestfulClientOnApiRoot(int port) {
 		
-		return RestfulHalResource.newInstance(getShopApiRootUUri(port));
-	}
-	
-	public static Traverson getShopRestResourceTraversonCLient(int port) {
-
-		Traverson traverson = new Traverson(
-				URI.create(getShopApiRootUUri(port)),
-				MediaTypes.HAL_JSON);
-		return traverson;
+		return RestfulHalClient.newInstance(getShopApiRootUUri(port));
 	}
 	
 	private static String getShopApiRootUUri(int port) {

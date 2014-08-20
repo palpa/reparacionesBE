@@ -4,20 +4,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.hateoas.client.Traverson;
-import org.springframework.hateoas.client.Traverson.TraversalBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import reparaciones.resources.ShopResource;
-import reparaciones.utils.RestfulHalResource;
+import reparaciones.utils.RestfulHalClient;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -26,49 +26,40 @@ import reparaciones.utils.RestfulHalResource;
 @DirtiesContext
 public class ShopRestResourceTest {
 
+	private static final String SHOP_RESOURCE_SELF_RELATIONSHIP = "self";
+
 	@Value("${shop.name}")
-	String shopName;
+	private String shopName;
 
 	@Value("${local.server.port}")
 	private int port;
-		
+
+	private static ResponseEntity<ShopResource> response;
+
+	@Before
+	public void setUp() {
+		RestfulHalClient shopResourceClient = TestHelper
+				.getRestfulClientOnApiRoot(this.port);
+
+		response = shopResourceClient.toEntity(SHOP_RESOURCE_SELF_RELATIONSHIP,
+				ShopResource.class);
+	}
+
 	@Test
-	public void requestShopResourceUsingMyHalClient() throws Exception {
-		
-		RestfulHalResource shopResourceClient = TestHelper.getShopRestResource(this.port);
-		
-		ParameterizedTypeReference<ShopResource> typeReference = new ParameterizedTypeReference<ShopResource>() {};
-		ShopResource shopResource = shopResourceClient.follow(typeReference, "self");
-		
+	public void getStatusOKWhenRequestShopResource()
+			throws Exception {
+
+		assertThat(response.getStatusCode(),
+				is(equalTo(HttpStatus.OK)));
+	}
+
+	@Test
+	public void beApiRootForThisShop() throws Exception {
+
+		ShopResource shopResource = response.getBody();
+
 		assertThat(shopResource.getName(), is(equalTo(this.shopName)));
 		assertThat(shopResource.isApiRoot(), is(true));
 	}
-	
-	@Test
-	public void requestShopResourceAsResource() throws Exception {
-
-		Traverson traverson = TestHelper.getShopRestResourceTraversonCLient(this.port);
-
-		ParameterizedTypeReference<ShopResource> typeReference = new ParameterizedTypeReference<ShopResource>() {};
-		ShopResource shopResource = traverson.follow("self").toObject(typeReference);
-
-		assertThat(shopResource.getName(), is(equalTo(this.shopName)));
-		assertThat(shopResource.isApiRoot(), is(true));
-	}
-
-	@Test
-	public void requestShopResourceJsonPath() throws Exception {
-		
-		Traverson traverson = TestHelper.getShopRestResourceTraversonCLient(this.port);
-
-		TraversalBuilder selfRel = traverson.follow("self");
-
-		String shopName = selfRel.toObject("$.name");
-		boolean apiRoot = selfRel.toObject("$.apiRoot");
-
-		assertThat(shopName, is(equalTo(this.shopName)));
-		assertThat(apiRoot, is(true));
-	}
-
 
 }
