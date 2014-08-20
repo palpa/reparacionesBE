@@ -5,19 +5,20 @@ import java.net.URI;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.client.Traverson;
+import org.springframework.hateoas.client.Traverson.TraversalBuilder;
 import org.springframework.http.ResponseEntity;
 
 public final class RestfulHalClient {
 
 	private Traverson traverson;
-	
+
 	private Traverson getClient() {
 		return traverson;
 	}
-	
+
 	public RestfulHalClient(String rootUriString) {
 		this.traverson = new Traverson(
-				 URI.create(rootUriString),
+				URI.create(rootUriString),
 				MediaTypes.HAL_JSON);
 	}
 
@@ -25,10 +26,24 @@ public final class RestfulHalClient {
 		return new RestfulHalClient(rootUriString);
 	}
 
-	
-	public <T extends ResourceSupport>  ResponseEntity<T> toEntity(String path, Class<T> type) {
-
-		return getClient().follow(path).toEntity(type);
+	public RestfulTraversalBuilder follow(String... rels) {
+		return new RestfulTraversalBuilder(getClient().follow(rels));
 	}
-	
+
+	public class RestfulTraversalBuilder {
+
+		private TraversalBuilder builder;
+
+		private RestfulTraversalBuilder(TraversalBuilder builder) {
+			this.builder = builder;
+		}
+
+		public <T extends ResourceSupport> ResponseEntity<T> toEntity(
+				Class<T> type) {
+
+			return builder.toEntity(type);
+		}
+
+	}
+
 }

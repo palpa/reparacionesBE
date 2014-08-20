@@ -45,8 +45,8 @@ public class CustomerRestResourceTest {
 		RestfulHalClient shopResourceClient = TestHelper
 				.getRestfulClientOnApiRoot(this.port);
 
-		response = shopResourceClient.toEntity(CUSTOMERS_RESOURCE_RELATIONSHIP,
-				CustomerResources.class);
+		response = shopResourceClient.follow(CUSTOMERS_RESOURCE_RELATIONSHIP)
+				.toEntity(CustomerResources.class);
 	}
 
 	@Test
