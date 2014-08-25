@@ -4,12 +4,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import reparaciones.resources.ShopResource;
+import reparaciones.utils.E2eTestsBase;
 
 public class ShopServiceGivenShopRestResource extends E2eTestsBase {
 
@@ -18,12 +20,18 @@ public class ShopServiceGivenShopRestResource extends E2eTestsBase {
 	@Value("${shop.name}")
 	private String shopName;
 
+	private ResponseEntity<ShopResource> response;
+
+	@Before
+	public void setUp() {
+
+		response = shopResourceClient.follow(SHOP_RESOURCE_SELF_RELATIONSHIP)
+				.toEntity(ShopResource.class);
+	}
+
 	@Test
 	public void getStatusOKWhenRequestShopResource()
 			throws Exception {
-		
-		ResponseEntity<ShopResource> response = shopResourceClient.follow(SHOP_RESOURCE_SELF_RELATIONSHIP)
-				.toEntity(ShopResource.class);
 
 		assertThat(response.getStatusCode(),
 				is(equalTo(HttpStatus.OK)));
@@ -31,9 +39,6 @@ public class ShopServiceGivenShopRestResource extends E2eTestsBase {
 
 	@Test
 	public void beApiRootForThisShop() throws Exception {
-		
-		ResponseEntity<ShopResource> response = shopResourceClient.follow(SHOP_RESOURCE_SELF_RELATIONSHIP)
-				.toEntity(ShopResource.class);
 
 		ShopResource shopResource = response.getBody();
 

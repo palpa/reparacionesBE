@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -17,6 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import reparaciones.resources.CustomerResource;
+import reparaciones.utils.E2eTestsBase;
+import reparaciones.utils.RestfulHalClient;
 import reparaciones.utils.RestfulHalClient.RestfulTraversalBuilder;
 
 /**
@@ -32,6 +35,20 @@ public class ShopServiceGivenCustomerResource {
 	private static class CustomerResources extends Resources<CustomerResource> {
 	}
 
+	private static RestfulTraversalBuilder traversalCustomerResource;
+
+	private static RestfulTraversalBuilder getTraversalCustomerResource(
+			RestfulHalClient shopResourceClient) {
+
+		if (traversalCustomerResource == null)
+		{
+			traversalCustomerResource = shopResourceClient
+					.follow(CUSTOMERS_RESOURCE_RELATIONSHIP);
+		}
+
+		return traversalCustomerResource;
+	}
+
 	public static class CreateNewCustomer extends E2eTestsBase {
 
 		@Test
@@ -39,10 +56,8 @@ public class ShopServiceGivenCustomerResource {
 		public void returnResponseWithHttpStatusCodeCreated()
 				throws Exception {
 
-			RestfulTraversalBuilder traversalBuilder = shopResourceClient
-					.follow(CUSTOMERS_RESOURCE_RELATIONSHIP);
-
-			ResponseEntity<Object> response = traversalBuilder
+			ResponseEntity<Object> response = getTraversalCustomerResource(
+					shopResourceClient)
 					.post(new CustomerResource());
 
 			assertThat(response.getStatusCode(),
@@ -53,15 +68,17 @@ public class ShopServiceGivenCustomerResource {
 
 	public static class NotEmptyCustomerList extends E2eTestsBase {
 
+		private ResponseEntity<CustomerResources> response;
+
+		@Before
+		public void setUp() {
+			response = getTraversalCustomerResource(shopResourceClient)
+					.toEntity(CustomerResources.class);
+		}
+
 		@Test
 		public void returnResponseWithHttpStatusCodeOK()
 				throws Exception {
-
-			RestfulTraversalBuilder traversalBuilder = shopResourceClient
-					.follow(CUSTOMERS_RESOURCE_RELATIONSHIP);
-
-			ResponseEntity<CustomerResources> response = traversalBuilder
-					.toEntity(CustomerResources.class);
 
 			assertThat(response.getStatusCode(), is(equalTo(HttpStatus.OK)));
 		}
@@ -69,12 +86,6 @@ public class ShopServiceGivenCustomerResource {
 		@Test
 		public void returnXNumberOfCustomersForDefaultPageWhenWhenCustomersAreFoundAndParametersAreOmmited()
 				throws Exception {
-
-			RestfulTraversalBuilder traversalBuilder = shopResourceClient
-					.follow(CUSTOMERS_RESOURCE_RELATIONSHIP);
-
-			ResponseEntity<CustomerResources> response = traversalBuilder
-					.toEntity(CustomerResources.class);
 
 			CustomerResources customerResources = response.getBody();
 			// System.out.println(customerResources.iterator().next().getFirstName());
@@ -91,11 +102,8 @@ public class ShopServiceGivenCustomerResource {
 		public void returnResponseWithHttpStatusCodeNotFound()
 				throws Exception {
 
-			RestfulTraversalBuilder traversalBuilder = shopResourceClient
-					.follow(CUSTOMERS_RESOURCE_RELATIONSHIP);
-
-			ResponseEntity<CustomerResources> response = traversalBuilder
-					.toEntity(CustomerResources.class);
+			ResponseEntity<CustomerResources> response = getTraversalCustomerResource(
+					shopResourceClient).toEntity(CustomerResources.class);
 
 			assertThat(response.getStatusCode(),
 					is(equalTo(HttpStatus.NOT_FOUND)));
