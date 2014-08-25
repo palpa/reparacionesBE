@@ -8,6 +8,8 @@ import org.springframework.hateoas.client.Traverson;
 import org.springframework.hateoas.client.Traverson.TraversalBuilder;
 import org.springframework.http.ResponseEntity;
 
+import reparaciones.resources.CustomerResource;
+
 public final class RestfulHalClient {
 
 	private Traverson traverson;
@@ -42,6 +44,11 @@ public final class RestfulHalClient {
 				Class<T> type) {
 
 			return builder.toEntity(type);
+		}
+
+		public ResponseEntity<Object> post(CustomerResource customerResource) {
+
+			return null;
 		}
 
 	}
