@@ -48,17 +48,17 @@ public class CustomersController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> createCustomer(
+	public ResponseEntity<Void> createCustomer(
 			@RequestBody CustomerResource customerResource) {
 
-		System.out.println(customerResource);
+		System.out.println("POST: " + customerResource);
 
 		URI location = customerResourcesService
 				.createCustomer(customerResource);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(location);
-		return new ResponseEntity<Object>(headers, HttpStatus.CREATED);
+		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

@@ -1,16 +1,17 @@
 package reparaciones.utils;
 
 import java.net.URI;
-
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.client.Traverson;
 import org.springframework.hateoas.client.Traverson.TraversalBuilder;
 import org.springframework.http.ResponseEntity;
-
-import reparaciones.resources.CustomerResource;
+import org.springframework.web.client.RestOperations;
+import org.springframework.web.client.RestTemplate;
 
 public final class RestfulHalClient {
+
+	private static RestOperations restTemplate;
 
 	private Traverson traverson;
 
@@ -18,7 +19,7 @@ public final class RestfulHalClient {
 		return traverson;
 	}
 
-	public RestfulHalClient(String rootUriString) {
+	private RestfulHalClient(String rootUriString) {
 		this.traverson = new Traverson(
 				URI.create(rootUriString),
 				MediaTypes.HAL_JSON);
@@ -41,16 +42,31 @@ public final class RestfulHalClient {
 		}
 
 		public <T extends ResourceSupport> ResponseEntity<T> toEntity(
-				Class<T> type) {
+				Class<T> responseType) {
 
-			return builder.toEntity(type);
+			return builder.toEntity(responseType);
 		}
 
-		public ResponseEntity<Object> post(CustomerResource customerResource) {
+		public <T, V> ResponseEntity<V> post(T resource, Class<V> responseType) {
 
-			return null;
+			return getRestTemplate()
+					.postForEntity(
+							builder.asLink().getHref(),
+							resource,
+							responseType
+					);
 		}
 
+	}
+
+	private static final RestOperations getRestTemplate() {
+
+		if (restTemplate == null)
+		{
+			restTemplate = new RestTemplate();
+		}
+
+		return restTemplate;
 	}
 
 }

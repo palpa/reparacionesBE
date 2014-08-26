@@ -11,12 +11,11 @@ import static org.hamcrest.Matchers.notNullValue;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.experimental.runners.Enclosed;
-import org.junit.runner.RunWith;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import reparaciones.domain.Customer;
 import reparaciones.resources.CustomerResource;
 import reparaciones.utils.E2eTestsBase;
 import reparaciones.utils.RestfulHalClient;
@@ -26,8 +25,8 @@ import reparaciones.utils.RestfulHalClient.RestfulTraversalBuilder;
  * @author damian.palpacelli
  *
  */
-@RunWith(Enclosed.class)
-public class ShopServiceGivenCustomerResource {
+//@RunWith(Enclosed.class)
+public abstract class ShopServiceGivenCustomerResource {
 
 	private static final String CUSTOMERS_RESOURCE_RELATIONSHIP = "customers";
 	private static final int NUMBER_OF_CUSTOMERS_ON_FIRST_PAGE = 10;
@@ -51,14 +50,26 @@ public class ShopServiceGivenCustomerResource {
 
 	public static class CreateNewCustomer extends E2eTestsBase {
 
+		private static final String CUSTOMER_DNI = "10584325";
+		private static final String CUSTOMER_FIRST_NAME = "John";
+		private static final String CUSTOMER_LAST_NAME = "Doe";
+
 		@Test
-		@Ignore
 		public void returnResponseWithHttpStatusCodeCreated()
 				throws Exception {
 
-			ResponseEntity<Object> response = getTraversalCustomerResource(
+			Customer customer = Customer.getBuilder(
+					CUSTOMER_DNI,
+					CUSTOMER_FIRST_NAME,
+					CUSTOMER_LAST_NAME
+					).build();
+
+			// CustomerResource customerResource = new
+			// CustomerResourceAssembler().toResource(customer);
+
+			ResponseEntity<Void> response = getTraversalCustomerResource(
 					shopResourceClient)
-					.post(new CustomerResource());
+					.post(customer, Void.class);
 
 			assertThat(response.getStatusCode(),
 					is(equalTo(HttpStatus.CREATED)));
