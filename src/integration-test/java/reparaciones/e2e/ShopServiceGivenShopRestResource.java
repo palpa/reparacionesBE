@@ -1,4 +1,4 @@
-package reparaciones;
+package reparaciones.e2e;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
